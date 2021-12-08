@@ -7,11 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,10 +22,21 @@ class MainActivity : ComponentActivity() {
             MyApp(){
                 Greeting(name = "Android")
             }
+            Greeting(name = "Android")
 
         }
     }
 }
+
+@Composable
+fun Counter() {
+    var counterVariable by mutableStateOf(0,policy = structuralEqualityPolicy())
+    Button(onClick = { counterVariable++ }) {
+        Text(text = "I've been clicked $counterVariable times")
+    }
+}
+
+
 @Composable
 fun MyApp(content: @Composable () -> Unit){
     JetpackComposeBasicsTheme {
@@ -47,7 +55,7 @@ fun MyScreenContent(names:List<String> = listOf("Android","Rahul")){
             Greeting(name = name)
             Divider()
         }
-
+        Counter()
 
     }
 }
