@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -87,12 +90,21 @@ fun NamesList(names:List<String>,modifier: Modifier = Modifier) {
 //TOP Level Function
 @Composable
 fun Greeting(name: String) {
-    Surface() {
+    var isSelected:Boolean by remember {
+        mutableStateOf(false)
+    }
+
+    val targetColor :Color by animateColorAsState(
+        targetValue =if(isSelected) MaterialTheme.colors.primary else Color.Transparent,
+        animationSpec = tween(durationMillis = 2000)
+    )
+    Surface(color = targetColor){
         Text(
             text = "Hello $name!",
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .clickable { isSelected = !isSelected }
+                .padding(16.dp)
         )
-
     }
 }
 
