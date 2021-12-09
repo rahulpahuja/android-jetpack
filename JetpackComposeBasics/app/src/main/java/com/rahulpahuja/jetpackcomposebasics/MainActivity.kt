@@ -7,6 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -50,17 +52,12 @@ fun MyApp(content: @Composable () -> Unit){
 }
 
 @Composable
-fun MyScreenContent(names:List<String> = listOf("Android","Rahul")){
+fun MyScreenContent(names:List<String> = List(1000){"Hello Android $it"}){
     var counterState:Int by remember{
         mutableStateOf(0)
     }
     Column(modifier = Modifier.fillMaxHeight()) {
-        Column(modifier = Modifier.weight(1f)){
-            for(name in names){
-                Greeting(name = name)
-                Divider()
-            }
-        }
+       NamesList(names = names,modifier = Modifier.weight(1f))
 
         Counter(
             count=counterState,
@@ -76,7 +73,15 @@ fun MyScreenContent(names:List<String> = listOf("Android","Rahul")){
     }
 }
 
-
+@Composable
+fun NamesList(names:List<String>,modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier){
+        items(items= names){
+            Greeting(name = it)
+            Divider()
+        }
+    }
+}
 
 
 //TOP Level Function
