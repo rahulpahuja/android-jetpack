@@ -29,11 +29,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Counter() {
-    var counterVariable by mutableStateOf(0,policy = structuralEqualityPolicy())
-    Button(onClick = { counterVariable++ }) {
-        Text(text = "I've been clicked $counterVariable times")
-    }
+fun Counter(count:Int,updateCount:(Int)->Unit) {
+
+        Button(onClick = { updateCount(count+1) }) {
+            Text(text = "I've been clicked $count times")
+        }
+
 }
 
 
@@ -50,12 +51,24 @@ fun MyApp(content: @Composable () -> Unit){
 
 @Composable
 fun MyScreenContent(names:List<String> = listOf("Android","Rahul")){
+    var counterState:Int by remember{
+        mutableStateOf(0)
+    }
     Column {
         for(name in names){
             Greeting(name = name)
             Divider()
         }
-        Counter()
+        Counter(
+            count=counterState,
+            updateCount = { newCount:Int->
+                counterState = newCount
+
+            }
+        )
+        if(counterState>5){
+            Text("I Love android")
+        }
 
     }
 }
