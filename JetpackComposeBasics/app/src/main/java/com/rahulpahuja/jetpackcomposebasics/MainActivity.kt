@@ -54,11 +54,14 @@ fun MyScreenContent(names:List<String> = listOf("Android","Rahul")){
     var counterState:Int by remember{
         mutableStateOf(0)
     }
-    Column {
-        for(name in names){
-            Greeting(name = name)
-            Divider()
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Column(modifier = Modifier.weight(1f)){
+            for(name in names){
+                Greeting(name = name)
+                Divider()
+            }
         }
+
         Counter(
             count=counterState,
             updateCount = { newCount:Int->
